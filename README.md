@@ -40,7 +40,7 @@ Fork the repository, then clone your repository and install the dependencies:
 ```sh
 yarn
 ```
-
+ 
 Note: If you are in China Mainland, execute the following command before running the command above for faster installation.
 
 ```sh
