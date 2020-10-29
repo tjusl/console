@@ -74,6 +74,8 @@ router
   .post('/logout', handleLogout)
   .get('/login', renderLogin)
   .get('/oauth/redirect', handleOAuthLogin)
+
+  //添加公司SSO接口
   .get('/login_by_oauth', renderLoginByOAuth)
   .get('/oauth/redirect_home', handleOAuthLogin_redirect_home)
   // markdown template
