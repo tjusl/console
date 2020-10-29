@@ -96,6 +96,32 @@ const renderLogin = async ctx => {
   })
 }
 
+
+const renderLoginByOAuth = async ctx => {
+  let loginPath = '/login_by_oauth'
+
+  if (isValidReferer(ctx.query.referer)) {
+    loginPath += `?referer=${ctx.query.referer}`
+  }
+
+  ctx.cookies.set('referer', ctx.query.referer)
+
+  ctx.session.salt = uid.sync(12)
+
+  const oauthServers = await getOAuthInfo(ctx)
+
+  await ctx.render('login', {
+    loginPath,
+    oauthServers: oauthServers || [],
+    defaultOauthServer : oauthServers.length > 0? oauthServers[0] : null,
+    title: clientConfig.title,
+    error: ctx.request.error,
+    errorCount: ctx.session.errorCount || 0,
+    salt: ctx.session.salt,
+    t: ctx.t.bind(ctx),
+  })
+}
+
 const renderMarkdown = async ctx => {
   await ctx.render('blank_markdown')
 }
