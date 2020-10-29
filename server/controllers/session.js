@@ -182,8 +182,35 @@ const handleOAuthLogin = async ctx => {
   ctx.body = `<script>self.close();</script>`
 }
 
+const handleOAuthLogin_redirect_home = async ctx => {
+  let user = null
+  const error = {}
+
+  try {
+    user = await oAuthLogin(ctx.query)
+  } catch (err) {
+    ctx.app.emit('error', err)
+    Object.assign(error, {
+      status: err.code,
+      reason: err.statusText,
+      message: err.message,
+    })
+  }
+
+  if (!isEmpty(error) || !user) {
+    ctx.body = error.message
+    return
+  }
+
+  ctx.cookies.set('token', user.token)
+  ctx.cookies.set('currentUser', user.username)
+
+  ctx.body = `<script>location.replace('/');</script>`
+}
+
 module.exports = {
   handleLogin,
   handleLogout,
   handleOAuthLogin,
+  handleOAuthLogin_redirect_home,
 }

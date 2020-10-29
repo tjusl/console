@@ -36,11 +36,13 @@ const {
   handleLogin,
   handleLogout,
   handleOAuthLogin,
+  handleOAuthLogin_redirect_home,
 } = require('./controllers/session')
 
 const {
   renderView,
   renderLogin,
+  renderLoginByOAuth,
   renderMarkdown,
   renderCaptcha,
 } = require('./controllers/view')
@@ -71,9 +73,9 @@ router
   .post('/login', parseBody, handleLogin)
   .post('/logout', handleLogout)
   .get('/login', renderLogin)
-
   .get('/oauth/redirect', handleOAuthLogin)
-
+  .get('/login_by_oauth', renderLoginByOAuth)
+  .get('/oauth/redirect_home', handleOAuthLogin_redirect_home)
   // markdown template
   .get('/blank_md', renderMarkdown)
 
